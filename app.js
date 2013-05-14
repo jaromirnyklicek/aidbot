@@ -9,4 +9,4 @@ http.listen(process.env.VCAP_APP_PORT || 8080);
 config.configure(app);
 var db = config.connectDb(app);
 
-ws.run(http, db);
+ws.run(http, app, db);

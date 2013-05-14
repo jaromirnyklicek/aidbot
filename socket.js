@@ -1,4 +1,4 @@
-exports.run = function(http, db) {
+exports.run = function(http, app, db) {
   var xmpp = require('./xmpp-adapter')
     , io = require('socket.io').listen(http)
     , dao = require('./app/model/dao/DAOs')
@@ -7,10 +7,12 @@ exports.run = function(http, db) {
     , conversationDAO = new dao.ConversationDAO(db)
     , messageDAO = new dao.MessageDAO(db);
 
-  io.configure(function () {
-    io.set("transports", ["xhr-polling"]);
-    io.set("polling duration", 5);
-  });
+  app.configure('production', function() {
+    io.configure(function () {
+      io.set("transports", ["xhr-polling"]);
+      io.set("polling duration", 20);
+    });
+  })
 
   io.sockets.on('connection', function (socket) {
     socket.on('sendMessage', function (data) {
