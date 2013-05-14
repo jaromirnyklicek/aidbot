@@ -1,0 +1,108 @@
+<script src="/socket.io/socket.io.js"></script>
+<script src="/components/jquery/jquery.js"></script>
+<script src="/components/jquery.cookie/jquery.cookie.js"></script>
+<script>
+	var socket = io.connect('/');
+
+	socket.on('connect', function () {
+		var conversationId = $.cookie('cid');
+		socket.emit('openConversation', conversationId);
+	});
+
+	socket.on('sendMessage', function (username, data) {
+		$('#conversation').append('<b>' + username + ':</b> ' + data + '<br>');
+	});
+
+	socket.on('conversationOpened', function (conversationId, messages) {
+		$.cookie('cid', conversationId, { expires: 7 });
+
+		if (messages.length > 0) {
+			$('#conversation').html('');
+			for (var i in messages) {
+				$('#conversation').append('<b>' + messages[i].data.author + ':</b> ' + messages[i].data.text + '<br>');
+			}
+		}
+	});
+
+	// on load of page
+	$(function () {
+		// when the client clicks SEND
+		$('#datasend').click(function () {
+			var message = $('#data').val();
+			$('#data').val('');
+
+			$('#conversation').append('<b>Já:</b>' + message + '<br>');
+			socket.emit('sendMessage', message);
+		});
+
+		// when the client hits ENTER on their keyboard
+		$('#data').keypress(function (e) {
+			if (e.which == 13) {
+				$(this).blur();
+				$('#datasend').focus().click();
+			}
+		});
+	});
+</script>
+
+<style type="text/css">
+	html, body {
+		margin: 0;
+		padding: 0;
+		font-family: sans-serif;
+		font-size: 11px;
+	}
+
+	#wrapper {
+		width: 250px;
+		height: 200px;
+	}
+
+	#conversation {
+		width: 240px;
+		height: 160px;
+		padding: 5px;
+		overflow: auto
+	}
+
+	#controls {
+		height: 50px;
+		border-top: 1px solid #d4d4d4
+	}
+
+	#controls textarea {
+		width: 200px;
+		display: block;
+		float: left;
+		margin: 0;
+		height: 30px;
+		padding: 5px;
+		border: 0
+	}
+
+	#controls input {
+		width: 50px;
+		display: block;
+		float: right;
+		margin: 0;
+		border: 0;
+		background: #eee;
+		height: 30px;
+		padding: 5px;
+	}
+
+	textarea:focus, input:focus {
+		outline-width: 0;
+	}
+</style>
+<div>
+	<div id="wrapper">
+		<div id="conversation">
+
+		</div>
+		<div id="controls">
+			<textarea id="data"></textarea>
+			<input type="button" id="datasend" value="Send"/>
+		</div>
+	</div>
+</div>

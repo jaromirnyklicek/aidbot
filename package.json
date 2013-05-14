@@ -1,0 +1,14 @@
+{
+	"name": "aidbot",
+	"description": "Complex system for on-line tech support. Server implementation.",
+	"version": "0.0.1",
+	"dependencies": {
+		"express": "",
+		"socket.io": "",
+		"simple-xmpp": "0.1.10",
+    "node-xmpp": "0.3.2",
+    "mysql": "",
+    "qbox": "0.1.7"
+	}
+
+}
