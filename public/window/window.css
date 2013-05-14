@@ -1,0 +1,5 @@
+#aidbot { width: 250px; min-height: 30px; position: fixed; right: 0; bottom: 0;
+	background: #fff; z-index: 1000; border: 1px solid #d4d4d4;}
+#aidbot-frame { max-height: 200px;}
+#aidbot-frame iframe { height: 250px;}
+#aidbot-button { background: #75EE3B; height: 30px; text-align: center; line-height: 30px; font-size: 16px;}
