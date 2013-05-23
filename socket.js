@@ -1,4 +1,4 @@
-exports.run = function(http, app, db) {
+var socket = function(http, app, db) {
   var xmpp = require('./xmpp-adapter')
     , io = require('socket.io').listen(http)
     , dao = require('./app/model/dao/DAOs')
@@ -77,3 +77,6 @@ exports.run = function(http, app, db) {
     });
   });
 };
+
+module.exports = socket;
+
