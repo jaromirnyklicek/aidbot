@@ -27,7 +27,7 @@ exports.run = function(http, app, db) {
     });
 
     socket.on('openConversation', function(conversationId) {
-      console.log('ZACHYCEN: openConversation');
+      console.log('ZACHYCEN: openConversation, ID = %s', conversationId);
       var $ = qbox.create();
 
       var xmppRegister = true;
@@ -51,9 +51,10 @@ exports.run = function(http, app, db) {
 
       $.ready(function() {
         conversationDAO.persist(conversation, function(conversationId) {
+          console.log(conversationId);
           conversation.setId(conversationId);
           socket.emit('conversationOpened', conversation.getId(), conversation.getMessages());
-          console.log('VYVOLAN: conversationOpened');
+          console.log('VYVOLAN: conversationOpened, ID = %s', conversation.getId());
 
           socket.conversation = conversation;
           socket.xmpp = new xmpp.XmppAdapter(conversation.getId());

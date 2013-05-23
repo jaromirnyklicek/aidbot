@@ -1,4 +1,5 @@
-var entities = require('../entities/Entities');
+var entities = require('../entities/Entities')
+  , DateTime = require('../DateTime.js');
 
 var MessageDAO;
 MessageDAO = function(db)
@@ -10,7 +11,7 @@ MessageDAO.prototype.new = function(author, text)
 {
   var message = new entities.Message();
   message
-    .setDate(new Date())
+    .setDate(new DateTime().toString())
     .setAuthor(author)
     .setText(text);
 

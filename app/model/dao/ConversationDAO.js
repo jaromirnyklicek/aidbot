@@ -1,4 +1,5 @@
-var entities = require('../entities/Entities');
+var entities = require('../entities/Entities')
+  , DateTime = require('../DateTime.js');
 
 var ConversationDAO;
 ConversationDAO = function(db)
@@ -10,7 +11,7 @@ ConversationDAO.prototype.new = function()
 {
   var conversation = new entities.Conversation();
   conversation
-    .setDate(new Date())
+    .setDate(new DateTime().toString())
     .setOperator(1);
 
   return conversation;
@@ -18,9 +19,10 @@ ConversationDAO.prototype.new = function()
 
 ConversationDAO.prototype.find = function(conversationId, callback)
 {
-  //this.db.connect();
   var self = this;
-  this.db.query('SELECT * FROM conversations WHERE id = ?', conversationId, function(err, result) {
+  this.db.query('SELECT c.*, u.name AS operatorName FROM conversations c LEFT JOIN users u ON u.id = c.operator WHERE c.id = ?',
+    conversationId, function(err, result) {
+
     if (err) {
       throw err;
     }
@@ -29,9 +31,11 @@ ConversationDAO.prototype.find = function(conversationId, callback)
       var row = result[0];
       var conversation = new entities.Conversation();
       conversation
-        .setDate(new Date())
+        .setDate(new DateTime(row.date).toString())
         .setOperator(row.operator)
-        .setId(row.id);
+        .setOperatorName(row.operatorName)
+        .setId(row.id)
+        .setNote(row.note);
 
       self.db.query('SELECT * FROM messages WHERE conversation = ? ORDER BY date ASC',
         conversationId, function(err, result) {
@@ -46,13 +50,72 @@ ConversationDAO.prototype.find = function(conversationId, callback)
                 .setId(result[i].id)
                 .setText(result[i].text)
                 .setConversation(result[i].conversation)
-                .setDate(result[i].date)
+                .setDate(new DateTime(result[i].date).toString())
                 .setAuthor(result[i].author);
               conversation.addMessage(message);
             }
           }
-          //self.db.end();
           if(callback) callback(conversation);
+      });
+    } else {
+      if(callback) callback(false);
+    }
+  });
+}
+
+ConversationDAO.prototype.findAll = function(operator, callback)
+{
+  var self = this;
+  var sql = 'SELECT c.*, u.name AS operatorName FROM conversations c LEFT JOIN users u ON u.id = c.operator ';
+  if(operator != null) {
+    sql += 'WHERE c.operator = ' + operator;
+  }
+
+  this.db.query(sql, function(err, result) {
+    if (err) {
+      throw err;
+    }
+
+    if (result.length > 0) {
+      var conversationRows = result;
+      var conversations = [];
+
+      self.db.query('SELECT * FROM messages ORDER BY date ASC', function(err, result) {
+        if (err) {
+          throw err;
+        }
+
+        conversationRows.forEach(function(conversationRow) {
+          var conversation = new entities.Conversation();
+          conversation
+            .setDate(new DateTime(conversationRow.date).toString())
+            .setOperator(conversationRow.operator)
+            .setOperatorName(conversationRow.operatorName)
+            .setId(conversationRow.id)
+            .setNote(conversationRow.note);
+
+          if (result.length > 0) {
+            var filteredMessages = result.filter(function(messageRow) {
+              return messageRow.conversation === conversation.getId();
+            });
+
+            filteredMessages.forEach(function(messageRow) {
+                var message = new entities.Message();
+                message
+                  .setId(messageRow.id)
+                  .setText(messageRow.text)
+                  .setConversation(messageRow.conversation)
+                  .setDate(new DateTime(messageRow.date).toString())
+                  .setAuthor(messageRow.author);
+
+                conversation.addMessage(message);
+            });
+          }
+
+          conversations.push(conversation);
+        });
+
+        if(callback) callback(conversations);
       });
     } else {
       if(callback) callback(false);
@@ -64,11 +127,11 @@ ConversationDAO.prototype.persist = function(conversation, callback)
 {
   var conversationData = {
     date: conversation.getDate(),
-    operator: conversation.getOperator()
+    operator: conversation.getOperator(),
+    note: conversation.getNote()
   }
 
-  //this.db.connect();
-  if (conversation.getId() === undefined) {
+  if (conversation.getId() === null) {
     this.db.query('INSERT INTO conversations SET ?', conversationData, function(err, result) {
       if(err) {
         throw err;
@@ -79,9 +142,17 @@ ConversationDAO.prototype.persist = function(conversation, callback)
   } else {
     var messages = conversation.getMessages();
     for (var i in messages) {
-      if(messages[i].getConversation() === undefined) {
+      if(messages[i].getConversation() === null) {
         messages[i].setConversation(conversation.getId());
-        this.db.query('INSERT INTO messages SET ?', messages[i].data, function(err, result) {
+
+        var messageData = {
+          conversation: messages[i].getConversation(),
+          author: messages[i].getAuthor(),
+          date: messages[i].getDate(),
+          text: messages[i].getText()
+        };
+
+        this.db.query('INSERT INTO messages SET ?', messageData, function(err, result) {
           if(err) {
             throw err;
           }
@@ -93,7 +164,6 @@ ConversationDAO.prototype.persist = function(conversation, callback)
       if(err) {
         throw err;
       } else {
-        //self.db.end();
         if(callback) callback(conversation.getId());
       }
     });

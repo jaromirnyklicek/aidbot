@@ -13,9 +13,9 @@ var configure = function(app)
       app.use(app.router);
 
       // routing
-      app.get('/window', function (req, res) {
+      /*app.get('/window', function (req, res) {
         res.sendfile(__dirname + '/public/window/index.html');
-      });
+      });*/
 
       app.get('/admin', function (req, res) {
         res.sendfile(__dirname + '/public/admin/index.html');
@@ -28,8 +28,7 @@ var configure = function(app)
         host: 'localhost',
         user: 'root',
         password: 'asdex',
-        database: 'aidbot',
-        timezone: 'UTC'
+        database: 'aidbot'
       });
     });
     app.configure('production', function(){
@@ -41,8 +40,7 @@ var configure = function(app)
         host: dbService.host,
         user: dbService.username,
         password: dbService.password,
-        database: dbService.name,
-        timezone: 'UTC'
+        database: dbService.name
       });
     });
 }
