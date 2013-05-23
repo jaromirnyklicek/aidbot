@@ -10,8 +10,9 @@ config.configure(app);
 var db = config.connectDb(app);
 
 //controllery
-var controllers = require('./app/controllers/controllers.js');
-var conversationController = new controllers.ConversationController(db);
+var controllers = require('./app/controllers/controllers.js')
+  , conversationController = new controllers.ConversationController(db)
+  , userController = new controllers.UserController(db);
 
 //RESTful Web API
 app.get('/api/conversations', function(req, res, next) {
@@ -26,5 +27,17 @@ app.put('/api/conversations/:id', function(req, res, next) {
   return conversationController.update(req, res, next);
 });
 
+
+app.get('/api/users', function(req, res, next) {
+  return userController.findAll(req, res, next);
+});
+
+app.get('/api/users/:id', function(req, res, next) {
+  return userController.find(req, res, next);
+});
+
+app.put('/api/users/:id', function(req, res, next) {
+  return userController.save(req, res, next);
+});
 
 ws.run(http, app, db);
