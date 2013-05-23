@@ -1,0 +1,65 @@
+<div class="large-4 small-12 columns">
+	<div class="hide-for-small panel">
+		<h3>Conversations</h3>
+		<h5 class="subheader">Allows you to browse and simply manage your conversation history.
+		</h5>
+	</div>
+
+	<div class="panel">
+		<form action="" class="custom">
+			<label for="conversation-id">ID</label>
+			<input type="number" name="id" id="conversation-id"/>
+
+			<label for="conversation-date-from">Date from</label>
+			<input type="date" name="date-from" id="conversation-date-from"/>
+
+			<label for="conversation-date-to">Date to</label>
+			<input type="date" name="date-to" id="conversation-date-to"/>
+
+			<label for="conversation-operator">Operator</label>
+			<select name="operator" id="conversation-operator">
+				<option>- choose -</option>
+				<option value="1">Jaromír Nyklíček</option>
+				<option value="2">John Doe</option>
+				<option value="3">Jane Doe</option>
+			</select>
+
+			<label for="conversation-fulltext">Fulltext search</label>
+			<input name="fulltext" type="text" id="conversation-fulltext"/>
+
+			<div class="submit">
+				<input value="Find!" type="submit" class="button"/>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="large-8 columns">
+	<div class="row">
+		<div class="large-12 columns">
+			<div class="panel"  ng-repeat="conversation in conversations">
+				<div class="row">
+					<div class="large-2 small-6 columns conversation-date">
+						<strong>{{conversation.date | date:'MM/dd'}}</strong><br/>
+						<span>{{conversation.date | date:'yyyy'}}</span>
+						<br/>
+						<span>{{conversation.date | date:'mediumTime'}}</span>
+					</div>
+
+					<div class="large-10 small-6 columns">
+						<a href="#/conversation/{{conversation.id}}">
+							ID: <strong>{{conversation.id}}</strong>,
+							Operator: <strong>{{conversation.operatorName}}</strong>
+						</a>
+
+						<div class="conversation-note">
+							<i>Note: </i>
+							{{conversation.note}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

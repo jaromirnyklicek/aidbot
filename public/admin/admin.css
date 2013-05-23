@@ -1,0 +1,23 @@
+[class*="general foundicon-"]:before {
+	font-family: "GeneralFoundicons";
+}
+
+li.name i {font-size: 120%}
+
+.conversation-date {text-align: center;}
+.conversation-date strong {font-size: 130%}
+.conversation-date span {font-size: 80%; color: #555}
+
+.conversation-note {margin-top: 0.5em;}
+
+form.custom .submit {text-align: center;}
+form.custom .submit .button {margin-bottom: 0;}
+
+footer {text-align: center; font-size: 80%;}
+footer p {margin-bottom: 0;}
+footer p.github {font-size: 240%}
+
+.arrow {font-size: 220%; color: #343434; text-align: center; padding-top: 10px;}
+.arrow .user {color: #0b97c4;}
+
+.center {text-align: center;}

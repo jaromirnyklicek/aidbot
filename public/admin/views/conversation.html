@@ -1,0 +1,53 @@
+<div ng-notice="default" class="columns"></div>
+
+<div class="large-4 small-12 columns">
+	<div class="panel">
+		<h3>{{conversation.date | date:'short'}}</h3>
+		<h5 class="subheader">
+			<strong>Operator</strong>: {{conversation.operatorName}} <br />
+			<strong>ID</strong>: {{conversation.id}}
+		</h5>
+
+		<form action="" class="custom">
+			<label for="conversation-note">Note</label>
+			<textarea name="note" id="conversation-note" ng-model="conversation.note"></textarea>
+
+			<div class="submit">
+				<input value="Save!" type="submit" class="button" ng-click="update()"/>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="large-8 columns">
+	<div class="row">
+		<div class="large-12 columns">
+			<div class="row">
+					<h6>
+						<ng-pluralize count="conversation.messages.length"
+							when="{'0'    : 'Sorry, no messages.', 'one'  : '1 Message', 'other': '{} Messages'}">
+						</ng-pluralize>
+					</h6>
+					<div class="row" ng-repeat="message in conversation.messages">
+						<div class="large-1 columns small-3">
+							<div ng-switch on="message.author" class="arrow">
+								<span ng-switch-when="user" class="user">
+									<i class="general foundicon-right-arrow"></i>
+								</span>
+								<span ng-switch-default class="op">
+									<i class="general foundicon-left-arrow"></i>
+								</span>
+							</div>
+						</div>
+						<div class="large-11 columns">
+							<p>
+								<strong>{{message.date | date:'short'}}</strong><br />
+								{{message.text}}
+							</p>
+						</div>
+					</div>
+			</div>
+		</div>
+	</div>
+</div>
+
