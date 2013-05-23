@@ -15,7 +15,11 @@ ConversationController.prototype.findAll = function(req, res, next){
 
 ConversationController.prototype.find = function(req, res, next){
   this.conversations.find(req.params.id, function(result) {
-    res.json(result);
+    if(result) {
+      res.json(result);
+    } else {
+      res.status(404).send('404 Not Found');
+    }
   });
 };
 
