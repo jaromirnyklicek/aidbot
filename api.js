@@ -4,6 +4,8 @@ var api = function (app, db) {
   //noinspection JSValidateTypes
   app.configure(function () {
     app.use(express.logger('dev'));
+    app.use(express.cookieParser('1234BSJG.gjsRt'));
+    app.use(express.cookieSession());
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(express.static(__dirname + '/public'));
@@ -16,24 +18,30 @@ var api = function (app, db) {
     , userController = new controllers.UserController(db);
 
   function checkAuth(req, res, next) {
-    if (true) {
+    console.log(req.session);
+    if (req.session.authenticated === true) {
       next();
     } else {
       res.status(401).send('401 Unauthorized');
     }
   }
 
-  app.all('/login', function (req, res, next) {
+  app.all('/auth/login', function (req, res, next) {
     req.session.authenticated = true;
     res.status(200).send('Authorized');
   });
 
-// Authentication
+  app.all('/auth/logout', function (req, res, next) {
+    req.session.authenticated = false;
+    res.status(200).send('Logged out');
+  });
+
+  // Authentication
   app.all('/api/*', function (req, res, next) {
     checkAuth(req, res, next);
   });
 
-// RESTful Web API
+  // RESTful Web API
   app.get('/api/conversations', function (req, res, next) {
     return conversationController.findAll(req, res, next);
   });

@@ -19,6 +19,7 @@
 
 	<script src="/components/angular/angular.js"></script>
 	<script src="/components/angular-resource/angular-resource.js"></script>
+	<script src="/components/angular-cookies/angular-cookies.js"></script>
 
 	<script src="/admin/admin.js"></script>
 	<script src="/admin/controllers/ConversationListController.js"></script>
@@ -27,6 +28,9 @@
 	<script src="/admin/controllers/UserListController.js"></script>
 	<script src="/admin/controllers/UserController.js"></script>
 	<script src="/admin/services/User.js"></script>
+	<script src="/admin/controllers/AuthController.js"></script>
+	<script src="/admin/services/Auth.js"></script>
+	<script src="/admin/controllers/NavbarController.js"></script>
 
 	<script src="/admin/modules/Notification.js"></script>
 
@@ -43,13 +47,12 @@
 		<li class="name"><h1>
 			<a href="#"><i class="foundicon-chat"></i> Aidbot</a></h1>
 		</li>
-		<li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 	</ul>
 
-	<section class="top-bar-section">
+	<section class="top-bar-section" ng-controller="NavbarController">
 		<ul>
 			<li class="divider hide-for-small"></li>
-			<li><a href="#/">Conversations</a></li>
+			<li><a href="#/conversations">Conversations</a></li>
 			<li class="divider hide-for-small"></li>
 			<li><a href="#/users">User Accounts</a>
 			<li class="divider hide-for-small"></li>
@@ -59,7 +62,7 @@
 		<ul class="right">
 			<li><a href="#">Jaromír Nyklíček</a></li>
 			<li class="divider show-for-small"></li>
-			<li class="has-form"><a class="button" href="#">Log me out!</a></li>
+			<li class="has-form"><a class="button" href="#" ng-click="logout()">Log me out!</a></li>
 		</ul>
 	</section>
 </nav>

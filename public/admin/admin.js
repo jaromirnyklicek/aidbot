@@ -1,11 +1,15 @@
 'use strict';
 
-var aidbotAdminApp = angular.module('aidbotAdminApp', ['ngResource', 'Notification']);
+var aidbotAdminApp = angular.module('aidbotAdminApp', ['ngResource', 'Notification', 'ngCookies']);
 
 aidbotAdminApp.config(function($routeProvider) {
 
   $routeProvider.
     when('/', {
+      controller: 'AuthController',
+      templateUrl: 'views/login.html'
+    }).
+    when('/conversations', {
       controller: 'ConversationListController',
       templateUrl: 'views/conversation-list.html'
     }).
