@@ -16,15 +16,15 @@
 				<label for="password" class="right inline">Password</label>
 			</div>
 			<div class="large-7 columns">
-				<input id="password" type="password" ng-model="password">
+				<input id="password" type="password" ng-model="password" required>
 			</div>
 			<div class="large-2 columns"></div>
 		</div>
 		<div class="row">
 			<div class="large-3 columns">&nbsp;</div>
 			<div class="large-7 columns">
-				<input type="submit" value="Log me in!"
-					   class="button" ng-click="login()" /> <!--ng-disabled="form.$invalid"-->
+				<input type="submit" value="Log me in!" ng-disabled="form.$invalid"
+					   class="button" ng-click="login()" />
 			</div>
 			<div class="large-2 columns"></div>
 		</div>

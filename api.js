@@ -15,7 +15,8 @@ var api = function (app, db) {
   //controllery
   var controllers = require('./app/controllers/controllers.js')
     , conversationController = new controllers.ConversationController(db)
-    , userController = new controllers.UserController(db);
+    , userController = new controllers.UserController(db)
+    , authController = new controllers.AuthController(db);
 
   function checkAuth(req, res, next) {
     console.log(req.session);
@@ -26,14 +27,13 @@ var api = function (app, db) {
     }
   }
 
-  app.all('/auth/login', function (req, res, next) {
-    req.session.authenticated = true;
-    res.status(200).send('Authorized');
+  // user login
+  app.post('/auth/login', function (req, res, next) {
+    return authController.login(req, res, next);
   });
 
-  app.all('/auth/logout', function (req, res, next) {
-    req.session.authenticated = false;
-    res.status(200).send('Logged out');
+  app.post('/auth/logout', function (req, res, next) {
+    return authController.logout(req, res, next);
   });
 
   // Authentication

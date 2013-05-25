@@ -61,6 +61,24 @@ UserDAO.prototype.find = function(userId, callback)
     });
 }
 
+UserDAO.prototype.findByUsername = function(username, callback)
+{
+  var self = this;
+  this.db.query('SELECT * FROM users WHERE username= ?', username, function(err, result) {
+
+    if (err) {
+      throw err;
+    }
+
+    if (result.length > 0) {
+      var user = self.new(result[0]);
+      if(callback) callback(user);
+    } else {
+      if(callback) callback(false);
+    }
+  });
+}
+
 UserDAO.prototype.persist = function(user, callback)
 {
   var userData = {
