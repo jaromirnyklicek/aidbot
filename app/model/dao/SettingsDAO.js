@@ -25,7 +25,7 @@ SettingsDAO.prototype.load = function(callback)
 
 SettingsDAO.prototype.persist = function(settings, callback)
 {
-  this.db.query('UPDATE users SET ? WHERE id = 1', settings, function(err, result) {
+  this.db.query('UPDATE settings SET ? WHERE id = 1', settings, function(err, result) {
     if(err) {
       throw err;
     } else {
