@@ -23,6 +23,7 @@ AuthController.prototype.login = function(req, res, next)
 
       if (hashedPassword == user.password) {
         req.session.authenticated = true;
+        res.cookie('r', user.role, {path: '/admin', httpOnly: false});
         res.status(200);
       } else {
         response.message = 'Wrong password, try again.';
@@ -40,6 +41,7 @@ AuthController.prototype.login = function(req, res, next)
 AuthController.prototype.logout = function(req, res, next)
 {
   req.session.authenticated = false;
+  res.clearCookie('r', {path: '/admin'});
   res.status(200).send('Logged out');
 }
 
