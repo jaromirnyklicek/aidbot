@@ -28,5 +28,9 @@ aidbotAdminApp.config(function($routeProvider) {
     when('/user/:id', {
       controller: 'UserController',
       templateUrl: 'views/user.html'
+    }).
+    when('/settings', {
+      controller: 'SettingsController',
+      templateUrl: 'views/settings.html'
     });
 });

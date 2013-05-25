@@ -1,0 +1,67 @@
+<div class="large-4 small-12 columns">
+	<div class="hide-for-small panel">
+		<h3>Settings</h3>
+		<h5 class="subheader">Tailor your Aidbot to you.</h5>
+	</div>
+</div>
+
+<div class="large-8 columns">
+	<div class="row">
+		<form class="custom" action="" name="form">
+			<div class="row">
+				<div class="large-3 columns">
+					<label for="url" class="right inline">URL</label>
+				</div>
+				<div class="large-7 columns">
+					<input type="text" id="url" ng-model="settings.url"
+						placeholder="URL of your Aidbot installation" required>
+				</div>
+				<div class="large-2 columns"></div>
+			</div>
+			<div class="row">
+				<div class="large-3 columns">
+					<label for="offlineMessage" class="right inline">Offline message</label>
+				</div>
+				<div class="large-7 columns">
+					<textarea id="offlineMessage" ng-model="settings.offlineMessage"
+							  placeholder="Message displayed to customers when all operators ar offline" required>
+					</textarea>
+				</div>
+				<div class="large-2 columns"></div>
+			</div>
+			<div class="row">
+				<div class="large-3 columns">
+					<label for="cookieExpiration" class="right inline">Cookie expiration</label>
+				</div>
+				<div class="large-7 columns">
+					<input id="cookieExpiration" type="number" ng-model="settings.cookieExpiration"
+						placeholder="Cookie expiration period" required>
+				</div>
+				<div class="large-2 columns"></div>
+			</div>
+			<div class="row">
+				<div class="large-3 columns">&nbsp;</div>
+				<div class="large-7 columns">
+					<input type="submit" value="Save!"
+						   class="button" ng-disabled="form.$invalid" ng-click="update()" />
+				</div>
+				<div class="large-2 columns"></div>
+			</div>
+		</form>
+	</div>
+	<div class="row">
+		<div class="panel">
+		<h4>Your integration code</h4>
+		<textarea style="height: 150px">
+<div id="aidbot">
+	<div id="aidbot-frame">
+	</div>
+	<div id="aidbot-button" onclick="aidbot.toggle()">Open</div>
+</div>
+<script type="text/javascript" src="{{settings.url}}window/window.js"></script>
+<link rel="stylesheet" type="text/css" href="{{settings.url}}window/window.css" />
+		</textarea>
+		</div>
+	</div>
+</div>
+
