@@ -42,15 +42,22 @@
 	<img style="position: absolute; top: 45px; right: 0; border: 0;"
 		 src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub">
 </a>
-<nav class="top-bar">
+<nav class="top-bar" ng-controller="NavbarController">
 	<ul class="title-area">
-		<li class="name"><h1>
-			<a href="#"><i class="foundicon-chat"></i> Aidbot</a></h1>
+		<li class="name">
+			<h1 ng-switch="rights">
+			<a href="#/" ng-switch-when="0"><i class="foundicon-chat"></i> Aidbot</a>
+			<a href="#/conversations" ng-switch-default><i class="foundicon-chat"></i> Aidbot</a>
+			</h1>
 		</li>
 	</ul>
 
-	<section class="top-bar-section" ng-controller="NavbarController">
-		<ul>
+	<section class="top-bar-section" ng-switch="rights">
+		<ul ng-switch-when="2">
+			<li class="divider hide-for-small"></li>
+			<li><a href="#/conversations">Conversations</a></li>
+		</ul>
+		<ul ng-switch-when="1">
 			<li class="divider hide-for-small"></li>
 			<li><a href="#/conversations">Conversations</a></li>
 			<li class="divider hide-for-small"></li>
@@ -58,9 +65,10 @@
 			<li class="divider hide-for-small"></li>
 			<li><a href="#">Settings</a>
 		</ul>
-
-		<ul class="right">
-			<li><a href="#">Jaromír Nyklíček</a></li>
+	</section>
+	<section class="top-bar-section">
+		<ul class="right" ng-show="rights > 0">
+			<li><a href="#/user/{{userId}}">{{name}}</a></li>
 			<li class="divider show-for-small"></li>
 			<li class="has-form"><a class="button" href="#" ng-click="logout()">Log me out!</a></li>
 		</ul>

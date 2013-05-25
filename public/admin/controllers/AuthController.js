@@ -1,6 +1,6 @@
 'use strict';
 
-aidbotAdminApp.controller('AuthController', function($scope, Auth, $location, $cookies)
+aidbotAdminApp.controller('AuthController', function($rootScope, $scope, $cookies, Auth, $location)
 {
   var auth = new Auth();
 
@@ -13,10 +13,9 @@ aidbotAdminApp.controller('AuthController', function($scope, Auth, $location, $c
     auth.username = $scope.username;
     auth.password = $scope.password;
 
-    auth.$perform(function() {
-      $location.path('/users/');
+    auth.$perform(function(response) {
+      $rootScope.$emit('ngLogin', response.role, response.name, response.userId);
+      $location.path('/conversations/');
     });
   }
-
-  console.log($cookies);
 });
