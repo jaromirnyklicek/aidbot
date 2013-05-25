@@ -1,4 +1,5 @@
-var dao = require('../model/dao/DAOs.js');
+var dao = require('../model/dao/DAOs.js')
+  , entities = require('../model/Entities/Entities.js');
 
 var ConversationController;
 ConversationController = function(db)
@@ -9,7 +10,7 @@ ConversationController = function(db)
 
 ConversationController.prototype.findAll = function(req, res, next){
   var user = null;
-  if (req.session.role == 2) {
+  if (req.session.role == entities.User.ROLE_OP) {
     user = req.session.userId;
   }
   this.conversations.findAll(user, function(result) {
@@ -20,7 +21,12 @@ ConversationController.prototype.findAll = function(req, res, next){
 ConversationController.prototype.find = function(req, res, next){
   this.conversations.find(req.params.id, function(result) {
     if(result) {
-      res.json(result);
+      if(req.session.role == entities.User.ROLE_ADMIN
+        || (req.session.role == entities.User.ROLE_OP && result.getOperator() == req.session.userId)) {
+        res.json(result);
+      } else {
+        res.status(403).send('403 Forbidden');
+      }
     } else {
       res.status(404).send('404 Not Found');
     }

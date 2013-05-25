@@ -1,5 +1,6 @@
 var dao = require('../model/dao/DAOs.js')
-  , qbox = require('qbox');
+  , qbox = require('qbox')
+  , entities = require('../model/Entities/Entities.js');
 
 var UserController;
 UserController = function(db)
@@ -13,7 +14,11 @@ UserController.prototype.findAll = function(req, res, next){
     users.forEach(function(user) {
       user.setPassword(null);
     })
-    res.json(users);
+    if(req.session.role == entities.User.ROLE_ADMIN) {
+      res.json(users);
+    } else {
+      res.status(403).send('403 Forbidden');
+    }
   });
 };
 
@@ -21,7 +26,12 @@ UserController.prototype.find = function(req, res, next){
   this.users.find(req.params.id, function(user) {
     if(user) {
       user.setPassword(null);
-      res.json(user);
+      if(req.session.role == entities.User.ROLE_ADMIN
+        || (req.session.role == entities.User.ROLE_OP && user.getId() == req.session.userId)) {
+        res.json(user);
+      } else {
+        res.status(403).send('403 Forbidden');
+      }
     } else {
       res.status(404).send('404 Not Found');
     }

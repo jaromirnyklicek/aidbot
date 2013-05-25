@@ -19,7 +19,6 @@ var api = function (app, db) {
     , authController = new controllers.AuthController(db);
 
   function checkAuth(req, res, next) {
-    console.log(req.session);
     if (req.session.authenticated === true) {
       next();
     } else {

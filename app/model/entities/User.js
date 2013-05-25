@@ -8,11 +8,8 @@ User = function()
   this.role = null;
 }
 
-User.ROLE_GUEST = 01
-User.ROLE_USER = 10;
-User.ROLE_OP = 11;
-
-
+User.ROLE_ADMIN = 1;
+User.ROLE_OP = 2;
 
 User.prototype.getId = function()
 {
