@@ -1,6 +1,5 @@
 var entities = require('../entities/Entities')
-  , crypto = require('crypto')
-  , md5sum = crypto.createHash('md5');
+  , crypto = require('crypto');
 
 var UserDAO;
 UserDAO = function(db)
@@ -87,7 +86,7 @@ UserDAO.prototype.persist = function(user, callback)
   }
 
   if (user.getPassword() !== null) {
-    md5sum.update(user.getPassword());
+    var md5sum = crypto.createHash('md5').update(user.getPassword());
     userData.password = md5sum.digest('hex');
   }
 
