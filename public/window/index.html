@@ -19,7 +19,7 @@
 		if (messages.length > 0) {
 			$('#conversation').html('');
 			for (var i in messages) {
-				$('#conversation').append('<b>' + messages[i].data.author + ':</b> ' + messages[i].data.text + '<br>');
+				$('#conversation').append('<b>' + messages[i].author + ':</b> ' + messages[i].text + '<br>');
 			}
 		}
 	});

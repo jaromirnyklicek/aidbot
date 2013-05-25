@@ -36,7 +36,7 @@ AidbotWindow.prototype.setCookie = function (name, value, expiration)
 
 AidbotWindow.prototype.toggle = function()
 {
-  var show = this.isFrameVisible();
+  var show = new Number(this.isFrameVisible());
   show = (show + 1) % 2;
   this.setCookie(this.cookieName, show, 7);
   this.showFrame();
