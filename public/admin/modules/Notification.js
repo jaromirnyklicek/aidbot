@@ -13,19 +13,25 @@ angular.module('Notification', []).factory('$flash', function($rootScope) {
     }
   };
   return service;
-}).directive('ngNotice', function($rootScope) {
+}).directive('ngNotice', function($rootScope, $timeout) {
     var noticeObject = {
       replace: false,
       transclude: false,
       link: function (scope, element, attr){
         $rootScope.$on("event:ngNotification", function(event, notification){
           if (attr.ngNotice == notification.element){
-            element.html("<div data-alert class=\"alert-box "+ notification.level + "\">"
-              + notification.message + "<a href=\"#\" class=\"close\">&times;</a></div>");
+            element.html("<div class=\"growl "+ notification.level + "\">"
+              + notification.message + "</div>");
             if (typeof notification.callback === 'function'){
               notification.callback();
             }
           }
+          $('.growl').click(function() {
+            $(this).fadeOut();
+          });
+          $timeout(function() {
+            $('.growl').fadeOut();
+          }, 6000);
         });
         element.attr('ng-notice',(attr.ngNotice || 'default'));
       }

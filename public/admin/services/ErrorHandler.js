@@ -6,12 +6,12 @@ aidbotAdminApp.factory('errorHandler', function ($q, $flash, $location) {
       // everything is ok, don't do anything
       return response;
     }, function (response) {
+      var message = 'Error occured during the communication with webservice. Try it later, please.';
+
       if (response.status == 401) {
+        $flash.notify('alert', message);
         $location.path('/');
       }
-
-      // error occured
-      var message = 'Error occured during the communication with webservice. Try it later, please.';
 
       if (response.data.message !== undefined) {
         message = response.data.message;

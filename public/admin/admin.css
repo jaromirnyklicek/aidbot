@@ -21,3 +21,8 @@ footer p.github {font-size: 240%}
 .arrow .user {color: #0b97c4;}
 
 .center {text-align: center;}
+
+.growl {position: fixed; top: 10px; z-index: 1000; width: 350px; padding: 10px;
+	background: #fff; border-radius: 10px; opacity: 0.9; left: 50%; margin-left: -175px;}
+.growl.success {background-color: #5da423; border-color: #457a1a; color: white;}
+.growl.alert {background-color: #c60f13; border-color: #970b0e; color: white; }

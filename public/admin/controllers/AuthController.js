@@ -1,6 +1,6 @@
 'use strict';
 
-aidbotAdminApp.controller('AuthController', function($scope, Auth, $location)
+aidbotAdminApp.controller('AuthController', function($scope, Auth, $location, $cookies)
 {
   var auth = new Auth();
 
@@ -17,4 +17,6 @@ aidbotAdminApp.controller('AuthController', function($scope, Auth, $location)
       $location.path('/users/');
     });
   }
+
+  console.log($cookies);
 });
