@@ -8,28 +8,24 @@
 	<div class="panel">
 		<form action="" class="custom">
 			<label for="conversation-id">ID</label>
-			<input type="number" name="id" id="conversation-id"/>
+			<input type="number" id="conversation-id" ng-model="filter.id"/>
 
 			<label for="conversation-date-from">Date from</label>
-			<input type="date" name="date-from" id="conversation-date-from"/>
+			<input type="date" id="conversation-date-from" ng-model="filter.dateFrom"/>
 
 			<label for="conversation-date-to">Date to</label>
-			<input type="date" name="date-to" id="conversation-date-to"/>
+			<input type="date" id="conversation-date-to" ng-model="filter.dateTo"/>
 
-			<label for="conversation-operator">Operator</label>
-			<select name="operator" id="conversation-operator">
-				<option>- choose -</option>
-				<option value="1">Jaromír Nyklíček</option>
-				<option value="2">John Doe</option>
-				<option value="3">Jane Doe</option>
-			</select>
+			<div ng-show="users.length > 0">
+				<label for="conversation-operator">Operator</label>
+				<select id="conversation-operator" ng-model="filter.operator">
+					<option value="0">- choose -</option>
+					<option ng-repeat="user in users" value="{{user.id}}">{{user.name}}</option>
+				</select>
+			</div>
 
 			<label for="conversation-fulltext">Fulltext search</label>
-			<input name="fulltext" type="text" id="conversation-fulltext"/>
-
-			<div class="submit">
-				<input value="Find!" type="submit" class="button"/>
-			</div>
+			<input type="text" id="conversation-fulltext" ng-model="filter.fulltext"/>
 		</form>
 	</div>
 </div>
