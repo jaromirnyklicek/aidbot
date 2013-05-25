@@ -16,7 +16,8 @@ var api = function (app, db) {
   var controllers = require('./app/controllers/controllers.js')
     , conversationController = new controllers.ConversationController(db)
     , userController = new controllers.UserController(db)
-    , authController = new controllers.AuthController(db);
+    , authController = new controllers.AuthController(db)
+    , settingsController = new controllers.SettingsController(db);
 
   function checkAuth(req, res, next) {
     if (req.session.authenticated === true) {
@@ -26,7 +27,7 @@ var api = function (app, db) {
     }
   }
 
-  // user login
+  // User login & logout
   app.post('/auth/login', function (req, res, next) {
     return authController.login(req, res, next);
   });
@@ -35,7 +36,7 @@ var api = function (app, db) {
     return authController.logout(req, res, next);
   });
 
-  // Authentication
+  // Check API authentication
   app.all('/api/*', function (req, res, next) {
     checkAuth(req, res, next);
   });
@@ -64,6 +65,15 @@ var api = function (app, db) {
 
   app.put('/api/users/:id', function (req, res, next) {
     return userController.save(req, res, next);
+  });
+
+
+  app.get('/api/settings', function (req, res, next) {
+    return settingsController.load(req, res, next);
+  });
+
+  app.put('/api/settings', function (req, res, next) {
+    return settingsController.save(req, res, next);
   });
 }
 
