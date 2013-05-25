@@ -23,9 +23,13 @@ AuthController.prototype.login = function(req, res, next)
 
       if (hashedPassword == user.password) {
         req.session.authenticated = true;
+        req.session.userId = user.getId();
+        req.session.role = user.getRole();
+
         res.cookie('r', user.getRole(), {path: '/admin', httpOnly: false});
         res.cookie('n', user.getName(), {path: '/admin', httpOnly: false});
         res.cookie('i', user.getId(), {path: '/admin', httpOnly: false});
+
         response.role = user.getRole();
         response.name = user.getName();
         response.userid = user.getId();

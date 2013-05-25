@@ -8,7 +8,11 @@ ConversationController = function(db)
 }
 
 ConversationController.prototype.findAll = function(req, res, next){
-  this.conversations.findAll(null, function(result) {
+  var user = null;
+  if (req.session.role == 2) {
+    user = req.session.userId;
+  }
+  this.conversations.findAll(user, function(result) {
     res.json(result);
   });
 };
