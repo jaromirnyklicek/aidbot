@@ -9,7 +9,6 @@ Created as my personal project at Masaryk University.
 * ...and last but not least, awesome Socket.IO
 
 ##Instalation
-###Environment
 * You need to install Node.js and then the development tools. Node.js comes with a package manager called [npm](http://npmjs.org) for installing NodeJS applications and libraries.  
 * You also need to install [MySQL](http://mysql.com). Download MySQL Community Server from [their website](http://dev.mysql.com/downloads/). 
 * XMPP server is also necessary, sorry. Choose one than suits you the best, for me it is [ejabberd](http://www.ejabberd.im/). Find some tutorial, install it and configure it. It doesn't take more than half an hour.
