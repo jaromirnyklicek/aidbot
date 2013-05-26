@@ -41,6 +41,6 @@ And that's all. Just run `node app.js` in the application directory and in your 
 
 
 ##Integration
-It's great to have Aidbot installed, but you probably want to integrate it to your website. Just login to administration interface and navigate to "Settings". There is an integration code. Copy/paste it to HTML template of your website. You needn't do anything more.
+Login to administration interface and navigate to "Settings". There is an integration code - copy/paste it to HTML template of your website. You needn't do anything more.
 
 
