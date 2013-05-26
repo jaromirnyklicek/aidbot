@@ -1,3 +1,15 @@
+/** @module SocketServer */
+
+/**
+ * Construction function.
+ * Socket service.
+ *
+ * @constructor
+ * @param {Function} http instance of HTTP server
+ * @param {Function} app instance of Express application
+ * @param {Connection} db database connection
+ */
+
 var socket = function(http, app, db) {
   var xmpp = require('./xmpp-adapter')
     , io = require('socket.io').listen(http)

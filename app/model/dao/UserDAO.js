@@ -2,11 +2,24 @@ var entities = require('../entities/Entities')
   , crypto = require('crypto');
 
 var UserDAO;
+
+/**
+ * Data access object for users.
+ *
+ * @param {Connection} db instance of connection to data storage.
+ * @constructor
+ */
 UserDAO = function(db)
 {
   this.db = db;
 }
 
+/**
+ * Creates new User entity with prefilled fields.
+ *
+ * @param {Object} data
+ * @returns {User}
+ */
 UserDAO.prototype.new = function(data)
 {
   var user = new entities.User();
@@ -22,6 +35,11 @@ UserDAO.prototype.new = function(data)
   return user;
 }
 
+/**
+ * Finds all users.
+ *
+ * @param {Function} callback
+ */
 UserDAO.prototype.findAll = function(callback)
 {
   var self = this;
@@ -42,6 +60,13 @@ UserDAO.prototype.findAll = function(callback)
   });
 }
 
+/**
+ * Finds a User according to given userId.
+ * At the end, given callback is executed with the result of find as argument.
+ *
+ * @param {Number} userId
+ * @param {Function} callback
+ */
 UserDAO.prototype.find = function(userId, callback)
 {
   var self = this;
@@ -60,6 +85,13 @@ UserDAO.prototype.find = function(userId, callback)
     });
 }
 
+/**
+ * Finds a User according to its username.
+ * At the end, given callback is executed with the result of find as argument.
+ *
+ * @param {String} username
+ * @param {Function} callback
+ */
 UserDAO.prototype.findByUsername = function(username, callback)
 {
   var self = this;
@@ -78,6 +110,13 @@ UserDAO.prototype.findByUsername = function(username, callback)
   });
 }
 
+/**
+ * Persist given User to storage.
+ * Executes callback with the persisted User as parameter.
+ *
+ * @param {User} user
+ * @param {Function} callback
+ */
 UserDAO.prototype.persist = function(user, callback)
 {
   var userData = {

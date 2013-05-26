@@ -3,12 +3,26 @@ var dao = require('../model/dao/DAOs.js')
   , entities = require('../model/Entities/Entities.js');
 
 var UserController;
+
+/**
+ * REST API - User controller. Allows user to manage users from client app through REST API.
+ * @param {Connection} db
+ * @constructor
+ */
 UserController = function(db)
 {
   this.db = db;
   this.users = new dao.UserDAO(db);
 }
 
+/**
+ * GET /api/users
+ * For more information see web service documentation.
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
 UserController.prototype.findAll = function(req, res, next){
   this.users.findAll(function(users) {
     users.forEach(function(user) {
@@ -22,6 +36,14 @@ UserController.prototype.findAll = function(req, res, next){
   });
 };
 
+/**
+ * GET /api/users/:id
+ * For more information see web service documentation.
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
 UserController.prototype.find = function(req, res, next){
   this.users.find(req.params.id, function(user) {
     if(user) {
@@ -38,6 +60,15 @@ UserController.prototype.find = function(req, res, next){
   });
 };
 
+/**
+ * POST /api/users
+ * PUT  /api/users/:id
+ * For more information see web service documentation.
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
 UserController.prototype.save = function(req, res, next){
   var self = this
     , user
@@ -46,20 +77,30 @@ UserController.prototype.save = function(req, res, next){
   if(req.params.id !== undefined) {
     this.users.find(req.params.id, function(result) {
       user = result;
+      user.setUsername(req.body.username);
+      user.setName(req.body.name);
+      user.setRole(req.body.role);
+      if (req.body.password !== null) {
+        user.setPassword(req.body.password);
+      } else {
+        user.setPassword(null);
+      }
       $.start();
     })
   } else {
     user = this.users.new();
-    user.setUsername(req.body.username);
+    user.setUsername(req.query.username);
+    user.setName(req.query.name);
+    user.setRole(req.query.role);
+    if (req.query.password !== null) {
+      user.setPassword(req.query.password);
+    } else {
+      user.setPassword(null);
+    }
     $.start();
   }
 
   $.ready(function() {
-    if(req.body.password !== null) {
-      user.setPassword(req.body.password);
-    }
-    user.setName(req.body.name);
-    user.setRole(req.body.role);
     self.users.persist(user, function(result) {
       user.setId(result);
       user.setPassword(null);

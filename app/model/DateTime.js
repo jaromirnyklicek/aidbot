@@ -1,4 +1,12 @@
 var DateTime;
+
+/**
+ * Simple wrapper around internal JavaScript Date object. Allows you to print date as a string in
+ * ISO 8601 format.
+ *
+ * @param {String} datetime
+ * @constructor
+ */
 DateTime = function DateTime(datetime) {
   if (datetime === undefined) {
     this.isUTC = false;
@@ -9,6 +17,11 @@ DateTime = function DateTime(datetime) {
   this.setDateTime(datetime);
 }
 
+/**
+ * Parses given datetime string and cretes internal Date object.
+ *
+ * @param {String|Date|undefined} datetime if not defined sets current date and time
+ */
 DateTime.prototype.setDateTime = function (datetime) {
   var date;
   if (datetime instanceof String) {
@@ -23,10 +36,20 @@ DateTime.prototype.setDateTime = function (datetime) {
   this.dateObject = date;
 }
 
+/**
+ * Returns internal Date object.
+ *
+ * @returns {Date}
+ */
 DateTime.prototype.getDateObject = function () {
   return this.dateObject;
 }
 
+/**
+ * Returns internal datetime in ISO 8601 format.
+ *
+ * @returns {String}
+ */
 DateTime.prototype.toString = function () {
   var year = this.dateObject.getUTCFullYear()
     , month = this.dateObject.getUTCMonth()
@@ -62,6 +85,14 @@ DateTime.prototype.toString = function () {
   return str;
 }
 
+/**
+ * Pads given number with zeros from left.
+ *
+ * @private
+ * @param number
+ * @param width
+ * @returns {string}
+ */
 DateTime.prototype.zeroFill = function(number, width)
 {
   width -= number.toString().length;

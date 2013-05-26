@@ -1,5 +1,14 @@
 var mysql = require('mysql');
 
+/** @module Database */
+
+/**
+ * Database configuration and connection.
+ *
+ * @constructor
+ * @param app instance of Express appliaction
+ * @returns {Connection}
+ */
 var connectDb = function(app) {
   app.configure('development', function(){
     //noinspection JSValidateTypes

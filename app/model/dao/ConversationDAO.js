@@ -2,11 +2,23 @@ var entities = require('../entities/Entities')
   , DateTime = require('../DateTime.js');
 
 var ConversationDAO;
+
+/**
+ * Data access object for conversations.
+ *
+ * @param {Connection} db instance of connection to data storage.
+ * @constructor
+ */
 ConversationDAO = function(db)
 {
   this.db = db;
 }
 
+/**
+ * Creates new Conversation entity with prefilled fields.
+ *
+ * @returns {Conversation}
+ */
 ConversationDAO.prototype.new = function()
 {
   var conversation = new entities.Conversation();
@@ -17,6 +29,13 @@ ConversationDAO.prototype.new = function()
   return conversation;
 }
 
+/**
+ * Finds a Conversation according to given conversationId.
+ * At the end, given callback is executed with the result of find as argument.
+ *
+ * @param {Number} conversationId
+ * @param {Function} callback
+ */
 ConversationDAO.prototype.find = function(conversationId, callback)
 {
   var self = this;
@@ -63,6 +82,13 @@ ConversationDAO.prototype.find = function(conversationId, callback)
   });
 }
 
+/**
+ * Finds all conversations.
+ * If operator is defined then result includes only conversations owned by given operator.
+ *
+ * @param {Number} operator
+ * @param {Function} callback
+ */
 ConversationDAO.prototype.findAll = function(operator, callback)
 {
   var self = this;
@@ -123,6 +149,13 @@ ConversationDAO.prototype.findAll = function(operator, callback)
   });
 }
 
+/**
+ * Persist given conversation to storage.
+ * Executes callback with the persisted conversation as parameter.
+ *
+ * @param {Conversation} conversation
+ * @param {Function} callback
+ */
 ConversationDAO.prototype.persist = function(conversation, callback)
 {
   var conversationData = {

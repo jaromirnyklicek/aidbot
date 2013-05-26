@@ -1,5 +1,14 @@
 var express = require('express');
+/** @module REST */
 
+/**
+ * Construction function.
+ * Wraps complete Aidbot's RESTful webservice and authentication and authorization mechanism.
+ *
+ * @constructor
+ * @param {Function} app instance of Express application
+ * @param {Connection} db database connection
+ */
 var api = function (app, db) {
   //noinspection JSValidateTypes
   app.configure(function () {
@@ -19,6 +28,13 @@ var api = function (app, db) {
     , authController = new controllers.AuthController(db)
     , settingsController = new controllers.SettingsController(db);
 
+  /**
+   * User authentication checking middleware.
+   *
+   * @param req
+   * @param res
+   * @param next
+   */
   function checkAuth(req, res, next) {
     if (req.session.authenticated === true) {
       next();
@@ -61,6 +77,10 @@ var api = function (app, db) {
 
   app.get('/api/users/:id', function (req, res, next) {
     return userController.find(req, res, next);
+  });
+
+  app.post('/api/users', function (req, res, next) {
+    return userController.save(req, res, next);
   });
 
   app.put('/api/users/:id', function (req, res, next) {

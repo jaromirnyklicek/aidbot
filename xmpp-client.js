@@ -11,10 +11,17 @@ var STATUS = {
   OFFLINE: "offline"
 };
 
-module.exports = new SimpleXMPP();
+module.exports = new XmppClient();
 
-var SimpleXMPP
-SimpleXMPP = function()
+/** @module XMPP */
+var XmppClient
+
+/**
+ * Constructor function. Simple XMPP client.
+ *
+ * @constructor
+ */
+XmppClient = function()
 {
 
   //setting status here
@@ -277,4 +284,4 @@ SimpleXMPP.prototype.connect = function(params) {
 }
 
 // Allow for multiple connections
-module.exports.SimpleXMPP = SimpleXMPP;
+module.exports.XmppClient = XmppClient;

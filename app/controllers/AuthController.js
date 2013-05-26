@@ -3,12 +3,27 @@ var dao = require('../model/dao/DAOs.js')
   , crypto = require('crypto');
 
 var AuthController;
+
+/**
+ * REST API - Authentication controller. Provides authentication and authorization of users.
+ *
+ * @param {Connection} db
+ * @constructor
+ */
 AuthController = function(db)
 {
   this.db = db;
   this.users = new dao.UserDAO(db);
 }
 
+/**
+ * POST /api/auth/login
+ * Login and authorization.
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
 AuthController.prototype.login = function(req, res, next)
 {
   var username = req.body.username
@@ -47,6 +62,15 @@ AuthController.prototype.login = function(req, res, next)
   });
 }
 
+
+/**
+ * POST /api/auth/logout
+ * Logout.
+ *
+ * @param req
+ * @param res
+ * @param next
+ */
 AuthController.prototype.logout = function(req, res, next)
 {
   req.session.authenticated = false;

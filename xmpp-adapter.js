@@ -2,6 +2,17 @@ var sys = require('sys')
   , events = require('events')
   , xmpp = require('simple-xmpp');
 
+/** @module XMPP */
+
+/**
+ * Construction function.
+ * Adapter between XmppClient and the rest of the system. Adapts XMPP events to compatible EventEmitter events.
+ *
+ * @constructor
+ * @param {Function} app instance of Express application
+ * @param {Connection} db database connection
+ */
+
 function XmppAdapter(xmppUser) {
     if(false === (this instanceof XmppAdapter)) {
         return new XmppAdapter();
@@ -13,6 +24,11 @@ function XmppAdapter(xmppUser) {
 }
 sys.inherits(XmppAdapter, events.EventEmitter);
 
+/**
+ * Connects to jabber server.
+ *
+ * @param {bool} register if true, then user is registered before connection.
+ */
 XmppAdapter.prototype.createConnection = function(register) {
   var config = {
     jid: 'aidbot.'+ this.xmppUser +'@jabber.c3po.cz',
@@ -27,6 +43,11 @@ XmppAdapter.prototype.createConnection = function(register) {
   });
 }
 
+/**
+ * Sends a message to operator.
+ *
+ * @param message
+ */
 XmppAdapter.prototype.sendMessage = function(message)
 {
   this.xmppClient.send('mira@jabber.c3po.cz', message);
