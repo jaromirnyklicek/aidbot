@@ -48,9 +48,9 @@ XmppAdapter.prototype.createConnection = function(register) {
  *
  * @param message
  */
-XmppAdapter.prototype.sendMessage = function(message)
+XmppAdapter.prototype.sendMessage = function(message, recipient)
 {
-  this.xmppClient.send('john.doe@jabber.c3po.cz', message);
+  this.xmppClient.send(recipient, message);
 };
 
 exports.XmppAdapter = XmppAdapter;
